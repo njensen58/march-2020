@@ -1,0 +1,51 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 3px;
+}
+
+form > input {
+  margin: 8px 0;
+  padding: 8px
+}
+
+form > button {
+  padding: 8px;
+}
+
+.modal-overlay {
+  position: absolute;
+  width: 100vw;
+  height: 100vh;
+  background-color: #1119;
+  z-index: 5;
+  display: none;
+
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-overlay-open {
+  display: flex;
+}
+
+.modal {
+  position: relative;
+  z-index: 6;
+}
+
+.modal-btn {
+  position: absolute; 
+  border-radius: 3px;
+  padding: 8px;
+  right: -16px; 
+  top: -16px;
+}
