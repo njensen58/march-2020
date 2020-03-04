@@ -3,6 +3,7 @@ import { UserContext } from "./context/UserProvider.js";
 import ProtectedRoute from "./components/shared/ProtectedRoute.js";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Nav from "./components/Nav"
+import Profile from "./components/Profile"
 
 import Auth from "./components/Auth";
 import IssueList from "./components/Issue";
@@ -23,6 +24,12 @@ export default function App() {
           redirectTo="/"
           token={token}
           component={IssueList}
+        />
+        <ProtectedRoute
+          path="/profile"
+          redirectTo="/"
+          token={token}
+          component={Profile}
         />
       </Switch>
     </div>

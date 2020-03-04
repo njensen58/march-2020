@@ -1,10 +1,12 @@
 import React, { useEffect, useContext, useState } from "react";
 import { IssueContext } from "../../context/IssueProvider.js";
+import { UserContext } from "../../context/UserProvider.js";
 import AddIssueModal from "./AddIssueModal.js";
 import Issue from "./Issue.js";
 
 export default function IssueList() {
-  const { getIssues, issues, vote} = useContext(IssueContext);
+  const { getIssues, issues, vote } = useContext(IssueContext);
+  const { addToWatchList } = useContext(UserContext);
   const [toggle, setToggle] = useState(false);
 
   useEffect(() => {
@@ -18,7 +20,13 @@ export default function IssueList() {
       <button onClick={toggler}>Add Issue</button>
       <AddIssueModal toggler={toggler} show={toggle} />
       {issues.map(issue => (
-        <Issue {...issue} vote={vote} key={issue._id} />
+        <Issue
+          {...issue}
+          watchListAction={addToWatchList}
+          watchListActionText="Add to" 
+          vote={vote}
+          key={issue._id}
+        />
       ))}
     </div>
   );

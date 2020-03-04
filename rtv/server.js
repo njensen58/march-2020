@@ -24,6 +24,7 @@ app.use("/auth", require("./routes/authRouter.js"));
 app.use("/api", expressJwt({ secret: process.env.SECRET }));
 app.use("/api/issue", require("./routes/issueRouter.js"))
 app.use("/api/comment", require("./routes/commentRouter.js"))
+app.use("/api/user", require("./routes/userRouter.js"))
 
 
 
