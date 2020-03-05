@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
+</head>
+<body>
+
+  <div id="instructions">
+    <p>Select a starting and an ending square, then press start</p>
+  </div>
+
+
+  <div id="grid-container">
+    <div id="grid">
+
+    </div>
+  </div>
+
+  <div id="text-container">
+    <h5>Shortest Path Length: <span id="shortest-path"></span></h5>
+  </div>
+
+  <div id="controls">
+    <p>Grid size: <span id="size-display"></span></p>
+    <input type="range" min="10" max="40" id="grid-size" value="30"/>
+    <p>Wall Density: <span id="wall-display"></span></p>
+    <input type="range" min="10" max="50" id="wall-density" value="25"/>
+    <button id="start-btn">Start</button>
+    <button id="reset-btn">Reset</button>
+  </div>
+
+  <script src="dijkstraKinda.js"></script>
+</body>
+</html>
