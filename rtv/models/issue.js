@@ -23,6 +23,10 @@ const issueSchema = new Schema({
     ref: "User",
     required: true
   },
+  comments: {
+    type: [Object],
+    default: []
+  },
   usersWhoHaveVoted: {
     type: [Schema.Types.ObjectId],
     ref: "User",

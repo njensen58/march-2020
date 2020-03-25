@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import IssueForm from "./IssueForm.js";
+import Comments from "./Comments.js";
 
 export default function Issue(props) {
   const {
@@ -10,18 +10,13 @@ export default function Issue(props) {
     vote,
     watchListAction,
     watchListActionText,
+    addComment,
+    getComments,
     _id
   } = props;
-  const initInputs = { title, description };
-  const [inputs, setInputs] = useState(initInputs);
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setInputs(p => ({ ...p, [name]: value }));
-  };
-  const handleSubmit = e => {
-    e.preventDefault();
-  };
+  const [commentToggle, setCommentToggle] = useState(false);
+  const toggler = () => setCommentToggle(p => !p);
 
   return (
     <div>
@@ -32,7 +27,18 @@ export default function Issue(props) {
       <p>Downvotes: {downVotes}</p>
       <button onClick={() => vote(_id, "down")}>v</button>
       <p>{watchListActionText} WatchList</p>
-      <button onClick={() => watchListAction(_id)}>{watchListActionText.split(" ")[0]}</button>
+      <button onClick={() => watchListAction(_id)}>
+        {watchListActionText.split(" ")[0]}
+      </button>
+      <button onClick={toggler}>Comments</button>
+      {commentToggle && (
+        <Comments
+          id={_id}
+          getComments={getComments}
+          addComment={addComment}
+          toggler={toggler}
+        />
+      )}
     </div>
   );
 }

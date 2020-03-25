@@ -5,7 +5,9 @@ import AddIssueModal from "./AddIssueModal.js";
 import Issue from "./Issue.js";
 
 export default function IssueList() {
-  const { getIssues, issues, vote } = useContext(IssueContext);
+  const { getIssues, issues, vote, addComment, getComments } = useContext(
+    IssueContext
+  );
   const { addToWatchList } = useContext(UserContext);
   const [toggle, setToggle] = useState(false);
 
@@ -22,8 +24,10 @@ export default function IssueList() {
       {issues.map(issue => (
         <Issue
           {...issue}
+          addComment={addComment}
+          getComments={getComments}
           watchListAction={addToWatchList}
-          watchListActionText="Add to" 
+          watchListActionText="Add to"
           vote={vote}
           key={issue._id}
         />
