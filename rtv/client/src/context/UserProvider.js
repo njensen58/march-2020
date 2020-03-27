@@ -72,7 +72,11 @@ export default function UserProvider(props) {
     userAxios
       .put(`/api/user/watchlist/remove/${_id}`)
       .then(res => {
-        setUserState(p => ({ ...p, user: res.data }));
+        setUserState(p => ({ 
+          ...p, 
+          user: res.data,
+          userWatchList: p.userWatchList.filter(item => item._id !== _id) 
+        }));
         localStorage.setItem("user", JSON.stringify(res.data));
       })
       .catch(err => console.log(err));

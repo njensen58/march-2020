@@ -1,27 +1,21 @@
-import React, { useState } from "react";
-import Comments from "./Comments.js";
+import React from "react";
+import { Link } from "react-router-dom";
+
 
 export default function Issue(props) {
   const {
     title,
-    description,
     upVotes,
     downVotes,
     vote,
     watchListAction,
     watchListActionText,
-    addComment,
-    getComments,
     _id
   } = props;
 
-  const [commentToggle, setCommentToggle] = useState(false);
-  const toggler = () => setCommentToggle(p => !p);
-
   return (
     <div>
-      <h1>{title}</h1>
-      <p>{description}</p>
+      <Link to={`/details/issue/${_id}`}>{title}</Link>
       <p>Upvotes: {upVotes}</p>
       <button onClick={() => vote(_id, "up")}>^</button>
       <p>Downvotes: {downVotes}</p>
@@ -30,15 +24,6 @@ export default function Issue(props) {
       <button onClick={() => watchListAction(_id)}>
         {watchListActionText.split(" ")[0]}
       </button>
-      <button onClick={toggler}>Comments</button>
-      {commentToggle && (
-        <Comments
-          id={_id}
-          getComments={getComments}
-          addComment={addComment}
-          toggler={toggler}
-        />
-      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 const express = require("express");
 const issueRouter = express.Router();
 const Issue = require("../models/issue.js");
+const Comment = require("../models/comment.js");
 
 issueRouter
   .route("/")
@@ -25,17 +26,18 @@ issueRouter
     });
   });
 
-// Get issue by ID
+// Get issue and its comments by _id
 issueRouter
   .route("/:_id")
-  .get((req, res, next) => {
-    Issue.findOne({ _id: req.params._id }, (err, issue) => {
-      if (err) {
-        res.status(500);
-        return next(err);
-      }
-      return res.status(200).send(issue);
-    });
+  .get(async (req, res, next) => {
+    try {
+      const issue = await Issue.findOne({ _id: req.params._id });
+      const comments = await Comment.find({ issue: issue._id });
+      return res.status(200).send({...issue.toObject(), comments});
+    } catch (err) {
+      res.status(500);
+      return next(err);
+    }
   })
   // update an issue's title
   .put((req, res, next) => {

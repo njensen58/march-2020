@@ -7,6 +7,7 @@ import Profile from "./components/Profile"
 
 import Auth from "./components/Auth";
 import IssueList from "./components/Issue";
+import IssueDetail from "./components/Issue/IssueDetail.js"
 
 export default function App() {
   const { token, logout } = useContext(UserContext);
@@ -30,6 +31,12 @@ export default function App() {
           redirectTo="/"
           token={token}
           component={Profile}
+        />
+        <ProtectedRoute
+          path="/details/issue/:_id"
+          redirectTo="/"
+          token={token}
+          component={IssueDetail}
         />
       </Switch>
     </div>

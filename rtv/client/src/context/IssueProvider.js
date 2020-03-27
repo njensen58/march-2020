@@ -9,7 +9,7 @@ issueAxios.interceptors.request.use(config => {
   return config;
 });
 
-const initState = { issues: [], voteErr: "" };
+const initState = { issues: [], issue: {}, voteErr: "" };
 
 export default function IssueProvider(props) {
   const [issueState, setIssueState] = useState(initState);
@@ -18,6 +18,19 @@ export default function IssueProvider(props) {
     issueAxios
       .get("/api/issue")
       .then(res => setIssueState(prev => ({ ...prev, issues: res.data })))
+      .catch(err => console.log(err));
+  }, []);
+
+  const getIssue = useCallback(_id => {
+    issueAxios
+      .get(`/api/issue/${_id}`)
+      .then(res => {
+        console.log(res);
+        setIssueState(prev => ({
+          ...prev,
+          issue: res.data
+        }));
+      })
       .catch(err => console.log(err));
   }, []);
 
@@ -44,41 +57,31 @@ export default function IssueProvider(props) {
   };
 
   // get the comments for a specific post by ID
-  const getComments = _id => {
+  const getComments = useCallback(_id => {
     issueAxios
       .get(`/api/comment/${_id}`)
       .then(res => {
-        setIssueState(prev => ({
-          ...prev,
-          issues: prev.issues.map(issue => {
-            if (issue._id === _id) {
-              const issueToUpdate = Object.assign({}, issue);
-              issueToUpdate.comments = res.data;
-              return issueToUpdate;
-            } else {
-              return issue;
-            }
-          })
-        }));
+        setIssueState(prev => {
+          const issueToUpdate = Object.assign({}, prev.issue);
+          issueToUpdate.comments.push(...res.data);
+          return {
+            ...prev,
+            issue: issueToUpdate
+          };
+        });
       })
       .catch(err => console.log(err));
-  };
+  }, []);
 
   const addComment = (_id, comment) => {
     issueAxios
       .post(`/api/comment/${_id}`, comment)
       .then(res => {
+        const issueToUpdate = Object.assign({}, issueState.issue);
+        issueToUpdate.comments.push(res.data);
         setIssueState(prev => ({
           ...prev,
-          issues: prev.issues.map(issue => {
-            if (issue._id === _id) {
-              const issueToUpdate = Object.assign({}, issue);
-              issueToUpdate.comments.push(res.data);
-              return issueToUpdate;
-            } else {
-              return issue;
-            }
-          })
+          issue: issueToUpdate
         }));
       })
       .catch(err => console.log(err));
@@ -93,6 +96,7 @@ export default function IssueProvider(props) {
       value={{
         ...issueState,
         getIssues,
+        getIssue,
         addIssue,
         vote,
         getComments,
